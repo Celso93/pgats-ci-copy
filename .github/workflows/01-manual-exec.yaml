@@ -4,6 +4,8 @@ name: "Execução Manual"
 # Gatilhos/triggers: Regras de disparo
 # Gatilho manual = workflow_dispatch
 on:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 # Tarefas dentro da pipeline são chamados de jobs
@@ -38,3 +40,10 @@ jobs:
     # executar os testes e2e
       - name: Executando testes e2e
         run: yarn run e2e
+
+      - name: Armazenando relatório HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: ./playwright-report/
