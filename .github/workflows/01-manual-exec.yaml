@@ -5,7 +5,7 @@ name: "Execução Manual"
 # Gatilho manual = workflow_dispatch
 on:
   pull_request:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 # Tarefas dentro da pipeline são chamados de jobs
