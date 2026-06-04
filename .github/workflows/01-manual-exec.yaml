@@ -69,4 +69,4 @@ jobs:
           to: ${{ secrets.EMAIL_TO }}
           from: 'CI Bot <${{ secrets.MAIL_USERNAME }}>'
           body: "O status da última execução do workflow de testes e2e é: ${{ job.status }}.\n\nAtenciosamente"
-          attachments: ${{ always() && './playwright-report/index.html' || '' }}
+          attachments: ./playwright-report/index.html
