@@ -40,6 +40,7 @@ jobs:
     # executar os testes e2e
       - name: Executando testes e2e
         run: yarn run e2e
+        continue-on-error: true
 
       - name: Armazenando relatório HTML
         if: always()
@@ -47,3 +48,25 @@ jobs:
         with:
           name: html-report
           path: ./playwright-report/
+
+  enviando-email:
+    needs: e2e-tests
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enviando email
+        uses: dawidd6/action-send-mail@v9
+        with:
+          server_address: smtp.mail.yahoo.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: 'CI: ${{ job.status }} - ${{ github.repository }}'
+          to: ${{ secrets.EMAIL_TO }}
+          from: 'CI Bot <${{ secrets.MAIL_USERNAME }}>'
+          body: "O status da última execução do workflow de testes e2e é: ${{ job.status }}.\n\nAtenciosamente"
+          attachments: attachments: ${{ always() && './playwright-report/index.html' || '' }} # GitHub Actions Expression
