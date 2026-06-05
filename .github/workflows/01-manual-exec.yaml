@@ -13,7 +13,7 @@ jobs:
   # Nome do job
   e2e-tests:
     # Maquina onde o job vai rodar
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     # Passos do job(e2e-tests) são chamados de steps
     steps:
