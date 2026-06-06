@@ -1,0 +1,38 @@
+name: "Execução Agendada"
+
+on:
+  schedule:
+    # https://crontab.guru/
+    # 1 - minuto, 2 - hora, 3 - dia do mês, 4 - mês, 5 - dia da semana
+    - cron: '0 0 * * *'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      - name: Instalando dependências
+        run: yarn
+
+      - name: Instalando Browsers do Playwright
+        run: yarn playwright install
+
+      - name: Executando testes e2e
+        run: yarn run e2e
+        continue-on-error: true
+
+      - name: Armazenando relatório HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: ./playwright-report/
