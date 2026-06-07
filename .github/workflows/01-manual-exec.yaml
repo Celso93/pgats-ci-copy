@@ -1,5 +1,5 @@
 # https://github.com/marketplace?type=actions
-name: "Execução Manual"
+name: 'Execução Manual'
 
 # Gatilhos/triggers: Regras de disparo
 # Gatilho manual = workflow_dispatch
@@ -17,27 +17,27 @@ jobs:
 
     # Passos do job(e2e-tests) são chamados de steps
     steps:
-    # Clone do projeto usando uma action que já existe no marketplace do github
+      # Clone do projeto usando uma action que já existe no marketplace do github
       - uses: actions/checkout@v4
 
-    # Instalção do node
+      # Instalção do node
       - uses: actions/setup-node@v4
         with:
           node-version: 24.x
 
-    # Tnstalação do Yarn
+      # Tnstalação do Yarn
       - name: Instalando Yarn
         run: npm install -g yarn
 
-    # Instalação das dependências
+      # Instalação das dependências
       - name: Instalando dependências
         run: yarn
 
-    # instalação dos Browsers do Playwright
+      # instalação dos Browsers do Playwright
       - name: Instalando Browsers do Playwright
         run: yarn playwright install
 
-    # executar os testes e2e
+      # executar os testes e2e
       - name: Executando testes e2e
         run: yarn run e2e
         continue-on-error: true
